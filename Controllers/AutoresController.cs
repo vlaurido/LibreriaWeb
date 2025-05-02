@@ -20,9 +20,21 @@ namespace LibreriaWeb.Controllers
         }
 
         // GET: Autores
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Autores.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var autores = from b in _context.Autores
+                         select b;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                autores = autores.Where(b => b.Nombre.Contains(searchString));
+            }
+
+            return View(await autores.ToListAsync());
+
+            //return View(await _context.Autores.ToListAsync());
         }
 
         // GET: Autores/Details/5

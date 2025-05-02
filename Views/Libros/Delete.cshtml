@@ -29,6 +29,13 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Autor.Id)
         </dd>
+        @if (!string.IsNullOrEmpty(Model.ImagenRuta)) //Mostrar la imagen actual
+        {
+            <div class="form-group">
+                <b>Portada actual:</b><br />
+                <img src="@Model.ImagenRuta" alt="Portada actual" style="width:100px;height:auto;" />
+            </div>
+        }
     </dl>
     
     <form asp-action="Delete">

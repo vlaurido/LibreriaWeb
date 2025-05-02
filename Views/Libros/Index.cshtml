@@ -4,11 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Libros</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nuevo Libro</a>
 </p>
+
+<!-- Formulario de búsqueda -->
+<form asp-action="Index" method="get" class="form-inline mb-3">
+    <div class="form-group">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Buscar libros por título..." />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -20,6 +29,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagenRuta)
             </th>
             <th></th>
         </tr>
@@ -37,6 +49,12 @@
                 @Html.DisplayFor(modelItem => item.Autor.Nombre)
             </td>
             <td>
+                @if (!string.IsNullOrEmpty(item.ImagenRuta))
+                {
+                    <img src="@item.ImagenRuta" alt="Portada" style="width:100px;height:auto;" />
+                }
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
@@ -45,3 +63,26 @@
 }
     </tbody>
 </table>
+
+<nav aria-label="Paginación de libros">
+    <ul class="pagination">
+        @{
+            int currentPage = (int)ViewData["CurrentPage"];
+            int totalPages = (int)ViewData["TotalPages"];
+            string currentFilter = ViewData["CurrentFilter"] as string ?? "";
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-searchString="@currentFilter">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
