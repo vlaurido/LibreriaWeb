@@ -25,9 +25,13 @@ namespace LibreriaWeb.Controllers
         {
             int pageSize = 5;
 
-            var libros = _context.Libros
-                        .Include(l => l.Autor)
-                        .AsQueryable();
+            var libros = from b in _context.Libros
+                         .Include(l => l.Autor)
+                         select b;
+
+            //var libros = _context.Libros
+              //          .Include(l => l.Autor)
+                //        .AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {

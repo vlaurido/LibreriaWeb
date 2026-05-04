@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using LibreriaWeb.Models.Validations;
 
 namespace LibreriaWeb.Models
 {
@@ -10,6 +11,7 @@ namespace LibreriaWeb.Models
         public string Titulo { get; set; }
 
         [Display(Name = "Año de publicación")]
+        [NoFuture(ErrorMessage = "El año de publicación no puede ser mayor al año actual.")]
         public int AnioPublicacion { get; set; }
 
         // FK y navegación
